@@ -2,6 +2,7 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import { globalErrorHandler } from "./middlewares/error.js";
 import { AppError } from "./utils/AppError.js";
 import routes from "./routes.js";
+import "./types/express.js";
 
 const app: Express = express();
 

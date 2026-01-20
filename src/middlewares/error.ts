@@ -1,39 +1,44 @@
-import { Request, Response, NextFunction } from 'express';
-import { AppError } from '../utils/AppError.js';
-import logger from '../utils/logger.js';
+import { Request, Response, NextFunction } from "express";
+import { AppError } from "../utils/AppError.js";
+import logger from "../utils/logger.js";
+import { env } from "../config/env.js";
 
 export const globalErrorHandler = (
   error: Error | AppError,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   // Default to 500 (Internal Server Error) if status code is missing
   let statusCode = 500;
-  let message = 'An unexpected error occurred';
+  let message = "An unexpected error occurred";
+  let stack: string | undefined = undefined;
 
   if (error instanceof AppError) {
     // It's a trusted error we created (e.g. Input validation, Logic error)
     statusCode = error.statusCode;
     message = error.message;
-  } else {
-    // It's an unknown programming bug (e.g. Database connection died, Null pointer)
-    // Log the FULL error for the developer to fix
-    logger.error('CRITICAL ERROR 💥:', error);
-    
-    // In production, don't leak details to the client
-    if (process.env.NODE_ENV === 'production') {
-      message = 'Something went wrong. Please try again later.';
+    stack = error.stack;
+  } else if (error instanceof Error) {
+    // Programming or other unknown error
+    logger.error("CRITICAL ERROR 💥:", error);
+
+    // Check environment safely
+    if (env.NODE_ENV === "production") {
+      message = "Something went wrong. Please try again later.";
     } else {
-      // In development, send the error message for debugging
       message = error.message;
+      stack = error.stack;
     }
+  } else {
+    // If error is not an instance of Error (e.g. throw "string")
+    logger.error("CRITICAL ERROR 💥:", error);
+    message = 'Unknown error occurred';
   }
 
-  res.status(statusCode).json({
+   res.status(statusCode).json({
     status: statusCode.toString().startsWith('4') ? 'fail' : 'error',
     message,
-    // Only show stack trace in development
-    stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+    stack: env.NODE_ENV === 'development' ? stack : undefined,
   });
 };

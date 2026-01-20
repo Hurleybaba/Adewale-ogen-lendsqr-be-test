@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { WalletService } from "./wallet.service.js";
 import { AppError } from "../../utils/AppError.js";
+import {
+  FundWalletDto,
+  TransferDto,
+  WithdrawDto,
+} from "./wallet.validation.js";
 
 // Helper to ensure user exists
 const getUserId = (req: Request): string => {
@@ -10,14 +15,14 @@ const getUserId = (req: Request): string => {
   return req.user.id;
 };
 
-export const fund = async (req: Request, res: Response, next: NextFunction) => {
+export const fund = async (
+  req: Request<{}, {}, FundWalletDto>,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const userId = getUserId(req);
-
-    const result = await WalletService.fundWallet(
-      userId,
-      Number(req.body.amount),
-    );
+    const result = await WalletService.fundWallet(userId, req.body.amount);
     res.status(200).json({ status: "success", data: result });
   } catch (e) {
     next(e);
@@ -25,7 +30,7 @@ export const fund = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const transfer = async (
-  req: Request,
+  req: Request<{}, {}, TransferDto>,
   res: Response,
   next: NextFunction,
 ) => {
@@ -34,7 +39,7 @@ export const transfer = async (
     const result = await WalletService.transfer(
       userId,
       req.body.email,
-      Number(req.body.amount),
+      req.body.amount,
     );
     res.status(200).json({ status: "success", data: result });
   } catch (e) {
@@ -43,7 +48,7 @@ export const transfer = async (
 };
 
 export const withdraw = async (
-  req: Request,
+  req: Request<{}, {}, WithdrawDto>,
   res: Response,
   next: NextFunction,
 ) => {
@@ -51,7 +56,7 @@ export const withdraw = async (
     const userId = getUserId(req);
     const result = await WalletService.withdraw(
       userId,
-      Number(req.body.amount),
+      req.body.amount,
     );
     res.status(200).json({ status: "success", data: result });
   } catch (e) {
@@ -76,10 +81,16 @@ export const history = async (
 };
 
 // Add this export
-export const getBalance = async (req: Request, res: Response, next: NextFunction) => {
+export const getBalance = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const userId = getUserId(req);
     const result = await WalletService.getBalance(userId);
     res.status(200).json({ status: "success", data: result });
-  } catch (e) { next(e); }
+  } catch (e) {
+    next(e);
+  }
 };
