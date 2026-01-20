@@ -4,17 +4,22 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-  "dev": "tsx watch src/app.ts",
-  "build": "rimraf dist && tsc",
-  "start": "node dist/app.js"
-},
+    "dev": "nodemon --exec node --loader ts-node/esm src/server.ts",
+    "migrate:make": "tsx node_modules/knex/bin/cli.js migrate:make -x ts",
+    "migrate:latest": "tsx node_modules/knex/bin/cli.js migrate:latest",
+    "build": "rimraf dist && tsc",
+    "start": "node dist/app.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "knex": "^3.1.0"
+    "knex": "^3.1.0",
+    "mysql2": "^3.16.1",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

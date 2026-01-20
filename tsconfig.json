@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2022",
+    "target": "es2020",
     "module": "nodenext",
     "moduleResolution": "nodenext",
 
@@ -9,7 +9,10 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "ts-node": {
+    "esm": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
