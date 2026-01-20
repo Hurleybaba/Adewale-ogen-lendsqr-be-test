@@ -1,8 +1,8 @@
 import { Knex } from "knex";
-import db, { Transaction, Transfer } from "../../database/knex.js";
+import db, { TransactionModel, Transfer } from "../../database/knex.js";
 
 export class TransactionRepository {
-  async createTransaction(data: Partial<Transaction>, trx: Knex.Transaction) {
+  async createTransaction(data: Partial<TransactionModel>, trx: Knex.Transaction) {
     return trx("transactions").insert(data);
   }
 

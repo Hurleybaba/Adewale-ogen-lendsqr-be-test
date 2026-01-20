@@ -17,7 +17,7 @@ export interface Wallet {
   created_at: Date;
 }
 
-export interface Transaction {
+export interface TransactionModel {
   id: string;
   wallet_id: string;
   type: "FUND" | "TRANSFER" | "WITHDRAW";
@@ -36,11 +36,11 @@ export interface Transfer {
 }
 
 declare module "knex" {
-  namespace Knes {
+  namespace Knex {
     interface Tables {
       users: User;
       wallets: Wallet;
-      transactions: Transaction;
+      transactions: TransactionModel;
       transfers: Transfer;
     }
   }
