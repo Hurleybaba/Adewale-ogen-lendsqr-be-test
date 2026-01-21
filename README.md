@@ -13,6 +13,12 @@ A robust, transactional wallet service built for a mobile lending application. T
 - [API Documentation](#-api-documentation)
 - [Testing](#-testing)
 
+## 🔗 Quick Links
+
+- **[Public Documentation](https://docs.google.com/document/d/14og2zyQjrKFkbKNf6kdxc5m6VS-pw-vX_dqrBX3xpuQ/edit?usp=sharing)** - Detailed project documentation
+- **[Repository](https://github.com/Hurleybaba/Adewale-ogen-lendsqr-be-test.git)** - GitHub repository
+- **[Live API](https://adewale-ogen-lendsqr-be-test.onrender.com)** - Production API endpoint
+
 ## ✨ Features
 
 - **User Account Management:** Secure user registration with compliance checks
@@ -52,6 +58,7 @@ Before onboarding, every user's email is checked against the **Lendsqr Adjutor K
 - **Strategy:** Fail-Open. If the external Adjutor API is down, we log the error but allow registration to proceed (as per standard MVP reliability patterns), ensuring user friction is minimized during outages.
 
 ## 🗄 Database Schema (ER Diagram)
+
 ![ER Diagram](ER%20diagram.png)
 
 The database consists of four normalized tables:
@@ -76,7 +83,7 @@ All tables include timestamps (`created_at`, `updated_at`) for audit trails.
 1.  **Clone the repository**
 
     ```bash
-    git clone https://github.com/Hurleybaba/LqrsAssessment
+    git clone https://github.com/Hurleybaba/Adewale-ogen-lendsqr-be-test.git
     cd assessment
     ```
 
@@ -327,4 +334,3 @@ Run the unit test suite:
 ```bash
 npm test
 ```
-

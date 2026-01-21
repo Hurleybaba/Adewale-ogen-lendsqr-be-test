@@ -11,6 +11,9 @@ export default {
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
 
+  // Ignore the distribution folder so Jest doesn't run compiled files
+  testPathIgnorePatterns: ["<rootDir>/dist/", "<rootDir>/node_modules/"],
+
   // Configure the transformer
   transform: {
     "^.+\\.tsx?$": [
