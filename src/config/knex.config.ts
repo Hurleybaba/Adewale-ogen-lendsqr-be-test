@@ -12,6 +12,9 @@ export const config: Knex.Config = {
     port: env.DB_PORT,
     multipleStatements: true,
     timezone: "Z",
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
   // Connection pool configuration
   pool: {
